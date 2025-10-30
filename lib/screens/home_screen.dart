@@ -4,6 +4,7 @@ import '../providers/app_provider.dart';
 import '../widgets/balance_card.dart';
 import '../widgets/service_grid.dart';
 import '../widgets/transaction_list.dart';
+import '../widgets/theme_toggle.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -210,10 +211,12 @@ class ProfileTab extends StatelessWidget {
         title: const Text('Profil'),
         elevation: 0,
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 30),
+            
+            // Photo de profil et nom
             Container(
               width: 100,
               height: 100,
@@ -228,13 +231,133 @@ class ProfileTab extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Mon Profil',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            Consumer<AppProvider>(
+              builder: (context, provider, child) {
+                return Text(
+                  provider.userName.isEmpty ? 'Utilisateur' : provider.userName,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '+225 XX XX XX XX',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.grey[600],
               ),
             ),
+            
+            const SizedBox(height: 40),
+            
+            // Toggle de thème
+            const ThemeToggle(),
+            
+            // Autres options du profil
+            ThemeCard(
+              title: 'Informations personnelles',
+              subtitle: 'Gérer vos informations',
+              icon: Icons.person_outline,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Fonctionnalité bientôt disponible'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+            
+            ThemeCard(
+              title: 'Sécurité',
+              subtitle: 'PIN et paramètres de sécurité',
+              icon: Icons.security,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Fonctionnalité bientôt disponible'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+            
+            ThemeCard(
+              title: 'Notifications',
+              subtitle: 'Gérer les notifications',
+              icon: Icons.notifications_outline,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Fonctionnalité bientôt disponible'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+            
+            ThemeCard(
+              title: 'Aide et support',
+              subtitle: 'Contactez notre équipe',
+              icon: Icons.help_outline,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Fonctionnalité bientôt disponible'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+            
+            const SizedBox(height: 30),
+            
+            // Bouton de déconnexion
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Déconnexion'),
+                      content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Annuler'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Déconnexion réussie'),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                          child: const Text('Déconnecter'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Se déconnecter'),
+              ),
+            ),
+            
+            const SizedBox(height: 30),
           ],
         ),
       ),
