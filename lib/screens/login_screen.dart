@@ -67,16 +67,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 
   void _handleLogin() async {
-    if (!_formKey.currentState!.validate()) return;
-
+    // Pas de validation pour le développement - accès direct
     setState(() => _isLoading = true);
     
-    // Simulation d'une connexion
-    await Future.delayed(const Duration(seconds: 2));
+    // Courte animation pour l'UX
+    await Future.delayed(const Duration(milliseconds: 500));
     
     if (mounted) {
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.setUserName('John Doe');
+      provider.setUserName('Utilisateur Test');
       provider.setBalance(125000);
       
       Navigator.pushReplacement(
@@ -223,12 +222,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               fillColor: Colors.grey[100],
                               contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre code famille';
-                              }
-                              return null;
-                            },
+                            // Pas de validation pour le développement
                           ),
                           
                           const SizedBox(height: 20),
@@ -274,12 +268,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               fillColor: Colors.grey[100],
                               contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre mot de passe';
-                              }
-                              return null;
-                            },
+                            // Pas de validation pour le développement
                           ),
                           
                           const SizedBox(height: 30),
@@ -315,6 +304,19 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       ),
                                     ),
                             ),
+                          ),
+                          
+                          const SizedBox(height: 15),
+                          
+                          // Note de développement
+                          Text(
+                            'Mode développement - Cliquez pour continuer',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                           
                         ],
