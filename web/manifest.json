@@ -1,11 +1,11 @@
 {
-    "name": "Pays Client",
-    "short_name": "Pays Client",
+    "name": "pays_client",
+    "short_name": "pays_client",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#1565C0",
-    "theme_color": "#1565C0",
-    "description": "Votre solution de paiement numérique",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -13,8 +13,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  final _pinController = TextEditingController();
+  final _familyCodeController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _isObscured = true;
   bool _isLoading = false;
 
@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _pinController.dispose();
+    _familyCodeController.dispose();
+    _passwordController.dispose();
     _slideController.dispose();
     _fadeController.dispose();
     super.dispose();
@@ -115,9 +115,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF1E88E5), // Bleu principal
-              Color(0xFF1565C0), // Bleu plus foncé
-              Color(0xFF0D47A1), // Bleu très foncé
+              Color(0xFF006BA6), // Bleu APELMAFAC
+              Color(0xFF005A8D),
+              Color(0xFF004872),
             ],
           ),
         ),
@@ -150,44 +150,35 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
                       const Text(
-                        'Pays Client',
+                        'APELMAFAC',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 32,
+                          fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                          letterSpacing: 3,
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Connectez-vous à votre portefeuille numérique',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.8),
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
                 ),
                 
-                const SizedBox(height: 60),
+                const SizedBox(height: 80),
                 
                 // Formulaire de connexion
                 SlideTransition(
                   position: _slideAnimation,
                   child: Container(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                          color: Colors.black.withValues(alpha: 0.15),
+                          blurRadius: 25,
+                          offset: const Offset(0, 15),
                         ),
                       ],
                     ),
@@ -196,47 +187,42 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            'Connexion',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1565C0),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          
-                          const SizedBox(height: 30),
-                          
-                          // Champ téléphone
+                          // Champ code famille
                           TextFormField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(10),
-                            ],
+                            controller: _familyCodeController,
                             decoration: InputDecoration(
-                              labelText: 'Numéro de téléphone',
-                              prefixIcon: const Icon(Icons.phone, color: Color(0xFF1565C0)),
-                              prefixText: '+225 ',
+                              hintText: 'Votre code famille',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 16,
+                              ),
+                              prefixIcon: Container(
+                                padding: const EdgeInsets.all(12),
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.grey[600],
+                                  size: 24,
+                                ),
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF1565C0)),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF1565C0), width: 2),
+                                borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
                               ),
                               filled: true,
-                              fillColor: const Color(0xFFF8F9FA),
+                              fillColor: Colors.grey[100],
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre numéro';
-                              }
-                              if (value.length < 10) {
-                                return 'Numéro invalide';
+                                return 'Veuillez entrer votre code famille';
                               }
                               return null;
                             },
@@ -244,42 +230,50 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           
                           const SizedBox(height: 20),
                           
-                          // Champ PIN
+                          // Champ mot de passe
                           TextFormField(
-                            controller: _pinController,
+                            controller: _passwordController,
                             obscureText: _isObscured,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(4),
-                            ],
                             decoration: InputDecoration(
-                              labelText: 'Code PIN',
-                              prefixIcon: const Icon(Icons.lock, color: Color(0xFF1565C0)),
+                              hintText: 'Votre mot de passe',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 16,
+                              ),
+                              prefixIcon: Container(
+                                padding: const EdgeInsets.all(12),
+                                child: Icon(
+                                  Icons.lock,
+                                  color: Colors.grey[600],
+                                  size: 24,
+                                ),
+                              ),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isObscured ? Icons.visibility : Icons.visibility_off,
-                                  color: const Color(0xFF1565C0),
+                                  color: Colors.grey[600],
                                 ),
                                 onPressed: () => setState(() => _isObscured = !_isObscured),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF1565C0)),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF1565C0), width: 2),
+                                borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
                               ),
                               filled: true,
-                              fillColor: const Color(0xFFF8F9FA),
+                              fillColor: Colors.grey[100],
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre PIN';
-                              }
-                              if (value.length < 4) {
-                                return 'PIN invalide';
+                                return 'Veuillez entrer votre mot de passe';
                               }
                               return null;
                             },
@@ -289,16 +283,16 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           
                           // Bouton de connexion
                           SizedBox(
-                            height: 55,
+                            height: 60,
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _handleLogin,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1565C0),
+                                backgroundColor: const Color(0xFF4CAF50),
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                elevation: 5,
+                                elevation: 0,
                               ),
                               child: _isLoading
                                   ? const SizedBox(
@@ -310,73 +304,19 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       ),
                                     )
                                   : const Text(
-                                      'Se connecter',
+                                      'SE CONNECTER',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.2,
                                       ),
                                     ),
                             ),
                           ),
                           
-                          const SizedBox(height: 20),
-                          
-                          // Lien mot de passe oublié
-                          TextButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Fonctionnalité bientôt disponible'),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Mot de passe oublié ?',
-                              style: TextStyle(
-                                color: Color(0xFF1565C0),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
-                  ),
-                ),
-                
-                const SizedBox(height: 40),
-                
-                // Inscription
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Pas encore de compte ? ',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.8),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Fonctionnalité bientôt disponible'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'S\'inscrire',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
                 

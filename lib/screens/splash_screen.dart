@@ -59,13 +59,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColor.withValues(alpha: 0.8),
-              Theme.of(context).primaryColor.withValues(alpha: 0.6),
+              Color(0xFF006BA6),
+              Color(0xFF005A8D),
+              Color(0xFF004872),
             ],
           ),
         ),
@@ -99,20 +99,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  'Pays Client',
+                  'APELMAFAC',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 32,
+                    fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Votre solution de paiement',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
+                    letterSpacing: 3,
                   ),
                 ),
               ],
