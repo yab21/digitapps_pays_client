@@ -85,8 +85,8 @@ class HomeTab extends StatelessWidget {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
@@ -288,7 +288,7 @@ class ProfileTab extends StatelessWidget {
             ThemeCard(
               title: 'Notifications',
               subtitle: 'Gérer les notifications',
-              icon: Icons.notifications_outline,
+              icon: Icons.notifications,
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(

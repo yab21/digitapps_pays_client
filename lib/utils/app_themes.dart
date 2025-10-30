@@ -64,16 +64,6 @@ class AppThemes {
       prefixIconColor: AppColors.lightPrimary,
     ),
     
-    // Cards
-    cardTheme: CardTheme(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      color: AppColors.lightSurface,
-      shadowColor: AppColors.lightCardShadow,
-    ),
-    
     // Bottom Navigation
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.lightSurface,
@@ -145,16 +135,6 @@ class AppThemes {
       fillColor: AppColors.darkSurface,
       labelStyle: const TextStyle(color: AppColors.darkPrimary),
       prefixIconColor: AppColors.darkPrimary,
-    ),
-    
-    // Cards
-    cardTheme: CardTheme(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      color: AppColors.darkSurface,
-      shadowColor: AppColors.darkCardShadow,
     ),
     
     // Bottom Navigation
