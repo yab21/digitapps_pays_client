@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
+import '../utils/app_themes.dart';
 import 'payments_screen.dart';
 import 'settings_screen.dart';
+import 'cotisations_screen.dart';
+import 'beneficiaires_screen.dart';
+import 'adhesion_screen.dart';
+import 'documents_fac_screen.dart';
+import 'mes_demandes_screen.dart';
 
 class ApelmafacHomeScreen extends StatefulWidget {
   const ApelmafacHomeScreen({super.key});
@@ -16,9 +22,8 @@ class _ApelmafacHomeScreenState extends State<ApelmafacHomeScreen> {
 
   final List<Widget> _pages = [
     const HomeTab(),
-    const TransactionsTab(),
+    const CotisationsScreen(),
     const ServicesTab(),
-    const ProfileTab(),
   ];
 
   @override
@@ -27,10 +32,10 @@ class _ApelmafacHomeScreenState extends State<ApelmafacHomeScreen> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -44,9 +49,9 @@ class _ApelmafacHomeScreenState extends State<ApelmafacHomeScreen> {
             });
           },
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF006BA6),
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.white,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+          backgroundColor: Theme.of(context).cardColor,
           elevation: 0,
           selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           unselectedLabelStyle: const TextStyle(fontSize: 12),
@@ -57,15 +62,11 @@ class _ApelmafacHomeScreenState extends State<ApelmafacHomeScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.receipt_long),
-              label: 'Transactions',
+              label: 'Cotisations',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.apps),
-              label: 'Services',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
+              label: 'Mes services',
             ),
           ],
         ),
@@ -79,67 +80,89 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
+    
     return Scaffold(
-      backgroundColor: const Color(0xFF006BA6),
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: Column(
           children: [
-            // Header avec nom utilisateur
+            // Header avec nom utilisateur amélioré
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: customColors.gradient,
+                ),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: Colors.white.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 2,
+                          ),
                         ),
                         child: const Icon(
                           Icons.person,
                           color: Colors.white,
-                          size: 24,
+                          size: 26,
                         ),
                       ),
-                      const SizedBox(width: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Bienvenue,',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                      const SizedBox(width: 18),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Bienvenue,',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.9),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          Consumer<AppProvider>(
-                            builder: (context, provider, child) {
-                              return Text(
-                                provider.userName.isEmpty ? 'DOUMBIA MORY FERE C000' : provider.userName,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                            const SizedBox(height: 2),
+                            Consumer<AppProvider>(
+                              builder: (context, provider, child) {
+                                return Text(
+                                  provider.userName.isEmpty ? 'DOUMBIA MORY FERE C000' : provider.userName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          // Action logout
-                        },
-                        icon: const Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                          size: 24,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            // Action logout
+                          },
+                          icon: const Icon(
+                            Icons.logout,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                       ),
                     ],
@@ -148,24 +171,30 @@ class HomeTab extends StatelessWidget {
               ),
             ),
             
-            // Corps principal avec fond blanc
+            // Corps principal avec fond du thème
             Expanded(
               child: Container(
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(0),
                     topRight: Radius.circular(0),
                   ),
                 ),
                 child: Column(
                   children: [
-                    // Section Solde
+                    // Section Solde améliorée
                     Container(
                       width: double.infinity,
-                      color: const Color(0xFF006BA6),
-                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: customColors.gradient,
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 35),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -176,42 +205,56 @@ class HomeTab extends StatelessWidget {
                                 'Solde',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SettingsScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
-                                  size: 24,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const SettingsScreen(),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.settings,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white, width: 1),
-                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white.withValues(alpha: 0.1),
+                              border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
                             ),
                             child: const Center(
                               child: Text(
                                 'Voir mon solde',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
@@ -229,10 +272,10 @@ class HomeTab extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Mes paiements',
                                   style: TextStyle(
-                                    color: Color(0xFF006BA6),
+                                    color: Theme.of(context).primaryColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -251,13 +294,13 @@ class HomeTab extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
-                                      side: const BorderSide(color: Color(0xFF006BA6)),
+                                      side: BorderSide(color: Theme.of(context).primaryColor),
                                     ),
                                   ),
-                                  child: const Text(
+                                  child: Text(
                                     'VOIR PLUS',
                                     style: TextStyle(
-                                      color: Color(0xFF006BA6),
+                                      color: Theme.of(context).primaryColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -272,51 +315,73 @@ class HomeTab extends StatelessWidget {
                               child: ListView(
                                 children: [
                                   _buildPaymentItem(
+                                    context,
                                     '070001925',
                                     'TFF23UKMMLM',
                                     '27/06/2024',
                                     '300 Fcfa',
                                     'Validé',
-                                    const Color(0xFF4CAF50),
+                                    customColors.success,
                                   ),
                                   _buildPaymentItem(
+                                    context,
                                     '89289932',
                                     'CI181222.1730.B91533',
                                     '05/04/2021',
                                     '21 400 Fcfa',
                                     'Validé',
-                                    const Color(0xFF4CAF50),
+                                    customColors.success,
                                   ),
                                   _buildPaymentItem(
+                                    context,
                                     '',
                                     'CA210105.1712.A51056',
                                     '05/01/2021',
                                     '27 100 Fcfa',
                                     'Validé',
-                                    const Color(0xFF4CAF50),
+                                    customColors.success,
                                   ),
                                 ],
                               ),
                             ),
                             
-                            // Bouton Actualités
-                            const SizedBox(height: 20),
+                            // Bouton Actualités amélioré
+                            const SizedBox(height: 25),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: ElevatedButton.icon(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF4CAF50),
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  gradient: LinearGradient(
+                                    colors: customColors.successGradient,
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: customColors.success.withValues(alpha: 0.3),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
                                 ),
-                                icon: const Icon(Icons.visibility, size: 18),
-                                label: const Text(
-                                  'Actualités',
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: Colors.white,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+                                  ),
+                                  icon: const Icon(Icons.visibility, size: 20),
+                                  label: const Text(
+                                    'Actualités',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -334,16 +399,16 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentItem(String number, String reference, String date, String amount, String status, Color statusColor) {
+  Widget _buildPaymentItem(BuildContext context, String number, String reference, String date, String amount, String status, Color statusColor) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.1),
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -372,18 +437,18 @@ class HomeTab extends StatelessWidget {
                 if (number.isNotEmpty)
                   Text(
                     number,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 Text(
                   reference,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -391,14 +456,14 @@ class HomeTab extends StatelessWidget {
                   date,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
                 Text(
                   amount,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -449,8 +514,188 @@ class ServicesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Services Tab - À implémenter')),
+    final customColors = Theme.of(context).extension<CustomColors>()!;
+    
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: customColors.gradient,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(25),
+                child: const Text(
+                  'Mes services',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              
+              // Corps principal avec fond du thème
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: ListView(
+                    padding: const EdgeInsets.all(25),
+                    children: [
+                      _buildServiceItem(
+                        context,
+                        'Mes bénéficiaires',
+                        Icons.people_outline,
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BeneficiairesScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildServiceItem(
+                        context,
+                        'Faire une adhésion',
+                        Icons.person_add_outlined,
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AdhesionScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildServiceItem(
+                        context,
+                        'Documents FAC',
+                        Icons.description_outlined,
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DocumentsFACScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildServiceItem(
+                        context,
+                        'Mes Demandes',
+                        Icons.request_page_outlined,
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MesDemandesScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildServiceItem(BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 18),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(18),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withValues(alpha: 0.08),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+              border: Border.all(
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.05),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).primaryColor.withValues(alpha: 0.2),
+                        Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: Theme.of(context).primaryColor,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 18),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Theme.of(context).primaryColor,
+                    size: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

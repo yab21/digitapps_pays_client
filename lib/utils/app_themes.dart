@@ -11,16 +11,30 @@ class AppThemes {
     colorScheme: const ColorScheme.light(
       primary: AppColors.lightPrimary,
       secondary: AppColors.lightSecondary,
+      tertiary: AppColors.lightSuccess,
       surface: AppColors.lightSurface,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onSurface: Colors.black87,
+      onSurface: AppColors.lightTextPrimary,
+      onTertiary: Colors.white,
     ),
+    
+    // Extension pour les couleurs personnalisées
+    extensions: const [
+      CustomColors(
+        success: AppColors.lightSuccess,
+        successDark: AppColors.darkSuccessGreen,
+        divider: AppColors.lightDivider,
+        textSecondary: AppColors.lightTextSecondary,
+        gradient: AppColors.lightGradient,
+        successGradient: AppColors.lightSuccessGradient,
+      ),
+    ],
     
     // Typographie
     textTheme: GoogleFonts.poppinsTextTheme().apply(
-      bodyColor: Colors.black87,
-      displayColor: Colors.black87,
+      bodyColor: AppColors.lightTextPrimary,
+      displayColor: AppColors.lightTextPrimary,
     ),
     
     // AppBar
@@ -72,6 +86,22 @@ class AppThemes {
       elevation: 10,
     ),
     
+    // Card Theme
+    cardTheme: CardThemeData(
+      color: AppColors.lightSurface,
+      elevation: 2,
+      shadowColor: AppColors.lightCardShadow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
+    
+    // Divider
+    dividerTheme: const DividerThemeData(
+      color: AppColors.lightDivider,
+      thickness: 1,
+    ),
+    
     // Scaffold
     scaffoldBackgroundColor: AppColors.lightBackground,
   );
@@ -84,16 +114,30 @@ class AppThemes {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.darkPrimary,
       secondary: AppColors.darkSecondary,
+      tertiary: AppColors.darkSuccess,
       surface: AppColors.darkSurface,
-      onPrimary: Colors.black,
-      onSecondary: Colors.black,
-      onSurface: Colors.white70,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: AppColors.darkTextPrimary,
+      onTertiary: Colors.white,
     ),
+    
+    // Extension pour les couleurs personnalisées
+    extensions: const [
+      CustomColors(
+        success: AppColors.darkSuccess,
+        successDark: Color(0xFF4CAF50),
+        divider: AppColors.darkDivider,
+        textSecondary: AppColors.darkTextSecondary,
+        gradient: AppColors.darkGradient,
+        successGradient: AppColors.darkSuccessGradient,
+      ),
+    ],
     
     // Typographie
     textTheme: GoogleFonts.poppinsTextTheme().apply(
-      bodyColor: Colors.white70,
-      displayColor: Colors.white,
+      bodyColor: AppColors.darkTextPrimary,
+      displayColor: AppColors.darkTextPrimary,
     ),
     
     // AppBar
@@ -112,7 +156,7 @@ class AppThemes {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.darkPrimary,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -125,7 +169,11 @@ class AppThemes {
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
-        borderSide: const BorderSide(color: AppColors.darkPrimary),
+        borderSide: const BorderSide(color: AppColors.darkDivider),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(color: AppColors.darkDivider),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
@@ -133,7 +181,8 @@ class AppThemes {
       ),
       filled: true,
       fillColor: AppColors.darkSurface,
-      labelStyle: const TextStyle(color: AppColors.darkPrimary),
+      labelStyle: const TextStyle(color: AppColors.darkTextSecondary),
+      hintStyle: const TextStyle(color: AppColors.darkTextSecondary),
       prefixIconColor: AppColors.darkPrimary,
     ),
     
@@ -145,7 +194,77 @@ class AppThemes {
       elevation: 10,
     ),
     
+    // Card Theme
+    cardTheme: CardThemeData(
+      color: AppColors.darkSurface,
+      elevation: 2,
+      shadowColor: AppColors.darkCardShadow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
+    
+    // Divider
+    dividerTheme: const DividerThemeData(
+      color: AppColors.darkDivider,
+      thickness: 1,
+    ),
+    
     // Scaffold
     scaffoldBackgroundColor: AppColors.darkBackground,
   );
+}
+
+// Extension pour les couleurs personnalisées
+@immutable
+class CustomColors extends ThemeExtension<CustomColors> {
+  final Color success;
+  final Color successDark;
+  final Color divider;
+  final Color textSecondary;
+  final List<Color> gradient;
+  final List<Color> successGradient;
+
+  const CustomColors({
+    required this.success,
+    required this.successDark,
+    required this.divider,
+    required this.textSecondary,
+    required this.gradient,
+    required this.successGradient,
+  });
+
+  @override
+  CustomColors copyWith({
+    Color? success,
+    Color? successDark,
+    Color? divider,
+    Color? textSecondary,
+    List<Color>? gradient,
+    List<Color>? successGradient,
+  }) {
+    return CustomColors(
+      success: success ?? this.success,
+      successDark: successDark ?? this.successDark,
+      divider: divider ?? this.divider,
+      textSecondary: textSecondary ?? this.textSecondary,
+      gradient: gradient ?? this.gradient,
+      successGradient: successGradient ?? this.successGradient,
+    );
+  }
+
+  @override
+  CustomColors lerp(ThemeExtension<CustomColors>? other, double t) {
+    if (other is! CustomColors) {
+      return this;
+    }
+    return CustomColors(
+      success: Color.lerp(success, other.success, t)!,
+      successDark: Color.lerp(successDark, other.successDark, t)!,
+      divider: Color.lerp(divider, other.divider, t)!,
+      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
+      gradient: gradient,
+      successGradient: successGradient,
+    );
+  }
 }

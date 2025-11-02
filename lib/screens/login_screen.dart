@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
 import 'apelmafac_home_screen.dart';
@@ -109,78 +108,112 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: const Color(0xFF006BA6),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Logo et titre
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.3),
-                              width: 2,
-                            ),
-                          ),
-                          child: Container(
-                            margin: const EdgeInsets.all(15),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF006BA6),
+              Color(0xFF004A7C),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Logo et titre améliorés
+                    FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
+                                ),
+                              ],
                             ),
-                            child: const Center(
-                              child: Text(
-                                'G',
-                                style: TextStyle(
-                                  color: Color(0xFF006BA6),
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
+                            child: Container(
+                              margin: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.1),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'A',
+                                  style: TextStyle(
+                                    color: Color(0xFF006BA6),
+                                    fontSize: 42,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'APELMAFAC',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 2,
+                          const SizedBox(height: 25),
+                          const Text(
+                            'APELMAFAC',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 3,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 10),
+                          Text(
+                            'Bienvenue sur votre espace membre',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.9),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  
-                  const SizedBox(height: 50),
+                    
+                    const SizedBox(height: 60),
                 
-                  // Formulaire de connexion
+                  // Formulaire de connexion amélioré
                   SlideTransition(
                     position: _slideAnimation,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 35),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            color: Colors.black.withValues(alpha: 0.15),
+                            blurRadius: 30,
+                            offset: const Offset(0, 15),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
                           ),
                         ],
                       ),
@@ -189,100 +222,142 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Champ code famille
-                          TextFormField(
-                            controller: _familyCodeController,
-                            decoration: InputDecoration(
-                              hintText: 'Votre code famille',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 16,
-                              ),
-                              prefixIcon: Container(
-                                padding: const EdgeInsets.all(12),
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.grey[600],
-                                  size: 24,
+                          // Champ code famille amélioré
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
                                 ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                              ],
                             ),
-                            // Pas de validation pour le développement
+                            child: TextFormField(
+                              controller: _familyCodeController,
+                              decoration: InputDecoration(
+                                hintText: 'Votre code famille',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                prefixIcon: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: const Icon(
+                                    Icons.person_outline,
+                                    color: Color(0xFF006BA6),
+                                    size: 22,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: BorderSide.none,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey[50],
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                              ),
+                            ),
                           ),
                           
                           const SizedBox(height: 20),
                           
-                          // Champ mot de passe
-                          TextFormField(
-                            controller: _passwordController,
-                            obscureText: _isObscured,
-                            decoration: InputDecoration(
-                              hintText: 'Votre mot de passe',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 16,
-                              ),
-                              prefixIcon: Container(
-                                padding: const EdgeInsets.all(12),
-                                child: Icon(
-                                  Icons.lock,
-                                  color: Colors.grey[600],
-                                  size: 24,
+                          // Champ mot de passe amélioré
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
                                 ),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _isObscured ? Icons.visibility : Icons.visibility_off,
-                                  color: Colors.grey[600],
-                                ),
-                                onPressed: () => setState(() => _isObscured = !_isObscured),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                              ],
                             ),
-                            // Pas de validation pour le développement
+                            child: TextFormField(
+                              controller: _passwordController,
+                              obscureText: _isObscured,
+                              decoration: InputDecoration(
+                                hintText: 'Votre mot de passe',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                prefixIcon: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: const Icon(
+                                    Icons.lock_outline,
+                                    color: Color(0xFF006BA6),
+                                    size: 22,
+                                  ),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isObscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                    color: const Color(0xFF006BA6),
+                                    size: 22,
+                                  ),
+                                  onPressed: () => setState(() => _isObscured = !_isObscured),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: BorderSide.none,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                  borderSide: const BorderSide(color: Color(0xFF006BA6), width: 2),
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey[50],
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                              ),
+                            ),
                           ),
                           
                           const SizedBox(height: 30),
                           
-                          // Bouton de connexion
-                          SizedBox(
+                          // Bouton de connexion amélioré
+                          Container(
                             height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF4CAF50),
+                                  Color(0xFF45A049),
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _handleLogin,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF4CAF50),
+                                backgroundColor: Colors.transparent,
                                 foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(18),
                                 ),
                                 elevation: 0,
                               ),
@@ -298,9 +373,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   : const Text(
                                       'SE CONNECTER',
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.2,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 1.5,
                                       ),
                                     ),
                             ),
@@ -308,15 +383,23 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           
                           const SizedBox(height: 15),
                           
-                          // Note de développement
-                          Text(
-                            'Mode développement - Cliquez pour continuer',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                              fontStyle: FontStyle.italic,
+                          // Note de développement améliorée
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.blue[200]!),
                             ),
-                            textAlign: TextAlign.center,
+                            child: Text(
+                              '🔧 Mode développement - Cliquez pour continuer',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue[700],
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           
                         ],
@@ -324,7 +407,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                   ),
                 ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
